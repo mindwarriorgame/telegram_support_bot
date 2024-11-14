@@ -4,7 +4,11 @@ from sqlalchemy.orm import sessionmaker
 
 from config import DATABASE_USER, DATABASE_PASS, DATABASE_HOST, DATABASE_NAME
 
-db_string = f'postgresql+psycopg2://{DATABASE_USER}:{DATABASE_PASS}@{DATABASE_HOST}/{DATABASE_NAME}'
+if DATABASE_USER is None:
+    db_string = f'sqlite:///db1.db'
+    print("No database credentials found, using sqlite")
+else:
+    db_string = f'postgresql+psycopg2://{DATABASE_USER}:{DATABASE_PASS}@{DATABASE_HOST}/{DATABASE_NAME}'
 
 db = create_engine(db_string)
 base = declarative_base()
